@@ -9,6 +9,7 @@ app.get('/',function(req,res){
 var nsp = io.of('/my-namespace');
 nsp.on('connection',function(socket){
 	console.log("User "+ socket.id +  " connected");
+	nsp.emit('hi','Welcome');
 	nsp.emit('hi','Hello everyone my id is :' + socket.id);
 });
 
