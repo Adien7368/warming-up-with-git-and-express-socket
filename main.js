@@ -5,19 +5,13 @@ var io = require('socket.io')(http);
 app.get('/',function(req,res){
 	res.sendfile('index.html');
 });
-var clients = 0;
-io.on('connection',function(socket){
-	clients++;
-	console.log('A user connected : ' + socket.id);
 
-	io.sockets.emit('broadcast',{description: clients + ' clients connected'});
-
-	socket.on('disconnect',function(){
-		io.sockets.emit('broadcast',{description: clients-1 + ' clients connected'});
-		clients--;
-		console.log('A user disconnected : '+socket.id);
-	});
+var nsp = io.of('/my-namespace');
+nsp.on('connection',function(socket){
+	console.log("User "+socket.id+ " connected");
+	nsp.emit('hi','Hello everyone my id is :'+socket.id);
 });
+
 
 http.listen(3000,function(){
 	console.log('listening on port:3000');

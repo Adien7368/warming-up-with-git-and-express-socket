@@ -4,15 +4,13 @@
 
   	<script src="/socket.io/socket.io.js"></script>
 	<title>test</title>
-	<script type="text/javascript">var socket = io();
-	socket.on('message',function(data){document.write(data);});
-	socket.on('broadcast',function(data){
-		document.body.innerHTML='';
-		document.write(data.description);
+	<script type="text/javascript">var socket = io('/my-namespace');
+	
+	socket.on('hi',function(data){
+		document.body.innerHTML+=data+'<br>';
 	});
 	</script>
 </head>
 <body>
-<p>hello</p>
 </body>
 </html>
