@@ -4,13 +4,19 @@
 
   	<script src="/socket.io/socket.io.js"></script>
 	<title>test</title>
-	<script type="text/javascript">var socket = io('/my-namespace');
+	<script type="text/javascript">var socket = io();
 	
-	socket.on('hi',function(data){
+	socket.on('broad',function(data){
 		document.body.innerHTML+=data+'<br>';
 	});
+	function sayHello(){
+		var socket = io();
+		socket.emit('requ',"Hi every one");
+	}
 	</script>
 </head>
 <body>
+<input id="button" type="button" value="Send" onclick="sayHello()">
+
 </body>
 </html>
