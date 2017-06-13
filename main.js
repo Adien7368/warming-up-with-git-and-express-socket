@@ -6,12 +6,19 @@ app.get('/',function(req,res){
 	res.sendfile('index.html');
 });
 
-var nsp = io.of('/my-namespace');
-nsp.on('connection',function(socket){
-	console.log("User "+ socket.id +  " connected");
-	nsp.emit('hi','Welcome');
-	nsp.emit('hi','Hello everyone my id is :' + socket.id);
+io.on('connection',function(socket){
+	console.log("User " + socket.id + " connectd");
+
+	socket.on('requ',function(data){
+
+		console.log(data);
+		io.emit('chat',data);
+	});
+	socket.on('disconnect',function(){
+		console.log('A user dissconnect');
+	});
 });
+
 
 
 http.listen(3000,function(){

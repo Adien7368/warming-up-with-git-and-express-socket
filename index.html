@@ -4,13 +4,65 @@
 
   	<script src="/socket.io/socket.io.js"></script>
 	<title>test</title>
-	<script type="text/javascript">var socket = io('/my-namespace');
-	
-	socket.on('hi',function(data){
-		document.body.innerHTML+=data+'<br>';
+	<script type="text/javascript">
+	var socket = io();
+	var username = "";
+	socket.on('chat',function(data){
+		if(username!=''){
+			var p = document.createElement('p');
+			p.innerHTML = data;
+			document.body.appendChild(p);
+		}
 	});
+	
+	function getUserName(){
+		 username = document.getElementById('username').value;
+		 if(username==''){
+		 	alert("Please enter some username ");
+		 }else{
+		 	var check = true;
+		 	for(var i=0;i<username.length;++i){
+		 		if(username==' '){
+		 			check=false;
+		 		}
+		 	}
+		 	if(check){
+		 		document.body.innerHTML = "";
+				var bu = document.createElement('input');
+		 		var te = document.createElement('input');
+		 		bu.type = "button";
+		 		bu.id = "button";
+		 		bu.value = "Send";
+		 		te.type = "text";
+		 		te.id = "textIn";
+		 		bu.onclick = function sayHello(){
+					socket.emit('requ',username + " : "+document.getElementById('textIn').value);
+					document.getElementById('textIn').value = "";
+					};
+				te.onkeyup = function(event){
+					if(event.keyCode==13){
+						socket.emit('requ',username + " : "+document.getElementById('textIn').value);
+						document.getElementById('textIn').value = "";
+					}
+				};
+		 		document.body.append(te);
+		 		document.body.append(bu);
+
+		 	}else{
+		 		alert('username should contain white spaces');
+		 		username='';
+		 	}
+		 }
+	}
+
 	</script>
 </head>
 <body>
+<p>
+	<p>Enter your name</p>
+	<br>
+	<input type="text" name="" id="username" onkeyup="if(event.keyCode==13)getUserName()">
+	<input type="button" name="" value="Submit" id="submit" onclick="getUserName()">
+</p>
 </body>
 </html>
